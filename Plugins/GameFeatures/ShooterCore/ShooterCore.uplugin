@@ -60,6 +60,10 @@
 		{
 			"Name": "LyraExampleContent",
 			"Enabled": true
+		},
+		{
+			"Name": "ALS",
+			"Enabled": true
 		}
 	]
 }

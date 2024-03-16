@@ -7,6 +7,7 @@
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
 #include "LyraCameraMode.h"
+#include "SpringArmComponentBase.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(LyraCameraComponent)
 
@@ -36,15 +37,26 @@ void ULyraCameraComponent::GetCameraView(float DeltaTime, FMinimalViewInfo& Desi
 	UpdateCameraModes();
 
 	FLyraCameraModeView CameraModeView;
-	CameraModeStack->EvaluateStack(DeltaTime, CameraModeView);
+	FLyraCameraModeArm CameraModeArm;
+
+	CameraModeStack->EvaluateStack(DeltaTime, CameraModeView, CameraModeArm);
 
 	// Keep player controller in sync with the latest view.
 	if (APawn* TargetPawn = Cast<APawn>(GetTargetActor()))
 	{
 		if (APlayerController* PC = TargetPawn->GetController<APlayerController>())
 		{
-			PC->SetControlRotation(CameraModeView.ControlRotation);
-		}
+			{
+				PC->SetControlRotation(CameraModeView.ControlRotation);
+			}
+		}	
+	}
+
+	if (USpringArmComponentBase* SpringArm = GetTargetActor()->FindComponentByClass<USpringArmComponentBase>())
+	{
+		SpringArm->TargetOffset = CameraModeArm.Location;
+		SpringArm->SetRelativeRotation(CameraModeArm.Rotation);
+		SpringArm->TargetArmLength = CameraModeArm.Length;
 	}
 
 	// Apply any offset that was added to the field of view.

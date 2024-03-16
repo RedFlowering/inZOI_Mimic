@@ -28,6 +28,10 @@
 		{
 			"Name": "ShooterCore",
 			"Enabled": true
+		},
+		{
+			"Name": "ALS",
+			"Enabled": true
 		}
 	]
 }

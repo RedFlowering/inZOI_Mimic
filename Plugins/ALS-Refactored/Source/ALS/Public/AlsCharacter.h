@@ -8,6 +8,7 @@
 #include "State/AlsRollingState.h"
 #include "State/AlsViewState.h"
 #include "Utility/AlsGameplayTags.h"
+#include "ModularCharacter.h"
 #include "AlsCharacter.generated.h"
 
 struct FAlsMantlingParameters;
@@ -19,7 +20,7 @@ class UAlsAnimationInstance;
 class UAlsMantlingSettings;
 
 UCLASS(AutoExpandCategories = ("Settings|Als Character", "Settings|Als Character|Desired State", "State|Als Character"))
-class ALS_API AAlsCharacter : public ACharacter
+class ALS_API AAlsCharacter : public AModularCharacter
 {
 	GENERATED_BODY()
 
@@ -122,9 +123,11 @@ public:
 
 	virtual void PostInitializeComponents() override;
 
-protected:
+public:
+	virtual void PreInitializeComponents() override;
 	virtual void BeginPlay() override;
-
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	
 public:
 	virtual void PostNetReceiveLocationAndRotation() override;
 

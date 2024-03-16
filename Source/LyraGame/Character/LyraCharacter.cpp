@@ -3,6 +3,7 @@
 #include "LyraCharacter.h"
 
 #include "AbilitySystem/LyraAbilitySystemComponent.h"
+#include "Camera/SpringArmComponentBase.h"
 #include "Camera/LyraCameraComponent.h"
 #include "Character/LyraHealthComponent.h"
 #include "Character/LyraPawnExtensionComponent.h"
@@ -31,8 +32,8 @@ ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<ULyraCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
 	// Avoid ticking characters if possible.
-	PrimaryActorTick.bCanEverTick = false;
-	PrimaryActorTick.bStartWithTickEnabled = false;
+	//PrimaryActorTick.bCanEverTick = false;
+	//PrimaryActorTick.bStartWithTickEnabled = false;
 
 	NetCullDistanceSquared = 900000000.0f;
 
@@ -69,11 +70,17 @@ ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer)
 	HealthComponent->OnDeathStarted.AddDynamic(this, &ThisClass::OnDeathStarted);
 	HealthComponent->OnDeathFinished.AddDynamic(this, &ThisClass::OnDeathFinished);
 
+	SpringArm = CreateDefaultSubobject<USpringArmComponentBase>(TEXT("SpringArmComponentBase"));
+	SpringArm->SetupAttachment(GetRootComponent());
+	SpringArm->TargetArmLength = 400.f;
+	SpringArm->bUsePawnControlRotation = false;
+
 	CameraComponent = CreateDefaultSubobject<ULyraCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->SetRelativeLocation(FVector(-300.0f, 0.0f, 75.0f));
+	CameraComponent->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 
 	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = true;
+	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
 	BaseEyeHeight = 80.0f;
@@ -131,7 +138,7 @@ void ALyraCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& Out
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME_CONDITION(ThisClass, ReplicatedAcceleration, COND_SimulatedOnly);
-	DOREPLIFETIME(ThisClass, MyTeamID)
+	DOREPLIFETIME(ThisClass, MyTeamID);
 }
 
 void ALyraCharacter::PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker)

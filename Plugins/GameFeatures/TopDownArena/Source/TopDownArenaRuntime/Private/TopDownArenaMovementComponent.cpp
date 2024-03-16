@@ -7,8 +7,8 @@
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(TopDownArenaMovementComponent)
 
-UTopDownArenaMovementComponent::UTopDownArenaMovementComponent(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+UTopDownArenaMovementComponent::UTopDownArenaMovementComponent()
+	: Super()
 {
 }
 

@@ -46,6 +46,33 @@ void FLyraCameraModeView::Blend(const FLyraCameraModeView& Other, float OtherWei
 }
 
 
+FLyraCameraModeArm::FLyraCameraModeArm()
+	: Location(ForceInit)
+	, Rotation(ForceInit)
+	, Length(ForceInit)
+{
+}
+
+void FLyraCameraModeArm::Blend(const FLyraCameraModeArm& Other, float OtherWeight)
+{
+	if (OtherWeight <= 0.0f)
+	{
+		return;
+	}
+	else if (OtherWeight >= 1.0f)
+	{
+		*this = Other;
+		return;
+	}
+
+	Location = FMath::Lerp(Location, Other.Location, OtherWeight);
+
+	const FRotator DeltaRotation = (Other.Rotation - Rotation).GetNormalized();
+	Rotation = Rotation + (OtherWeight * DeltaRotation);
+
+	Length = FMath::Lerp(Length, Other.Length, OtherWeight);
+}
+
 //////////////////////////////////////////////////////////////////////////
 // ULyraCameraMode
 //////////////////////////////////////////////////////////////////////////
@@ -327,7 +354,7 @@ void ULyraCameraModeStack::PushCameraMode(TSubclassOf<ULyraCameraMode> CameraMod
 	}
 }
 
-bool ULyraCameraModeStack::EvaluateStack(float DeltaTime, FLyraCameraModeView& OutCameraModeView)
+bool ULyraCameraModeStack::EvaluateStack(float DeltaTime, FLyraCameraModeView& OutCameraModeView, FLyraCameraModeArm& OutCameraModeArm)
 {
 	if (!bIsActive)
 	{
@@ -335,7 +362,7 @@ bool ULyraCameraModeStack::EvaluateStack(float DeltaTime, FLyraCameraModeView& O
 	}
 
 	UpdateStack(DeltaTime);
-	BlendStack(OutCameraModeView);
+	BlendStack(OutCameraModeView, OutCameraModeArm);
 
 	return true;
 }
@@ -404,7 +431,7 @@ void ULyraCameraModeStack::UpdateStack(float DeltaTime)
 	}
 }
 
-void ULyraCameraModeStack::BlendStack(FLyraCameraModeView& OutCameraModeView) const
+void ULyraCameraModeStack::BlendStack(FLyraCameraModeView& OutCameraModeView, FLyraCameraModeArm& OutCameraModeArm) const
 {
 	const int32 StackSize = CameraModeStack.Num();
 	if (StackSize <= 0)
@@ -417,6 +444,7 @@ void ULyraCameraModeStack::BlendStack(FLyraCameraModeView& OutCameraModeView) co
 	check(CameraMode);
 
 	OutCameraModeView = CameraMode->GetCameraModeView();
+	OutCameraModeArm = CameraMode->GetSpringArmBase();
 
 	for (int32 StackIndex = (StackSize - 2); StackIndex >= 0; --StackIndex)
 	{
@@ -424,6 +452,7 @@ void ULyraCameraModeStack::BlendStack(FLyraCameraModeView& OutCameraModeView) co
 		check(CameraMode);
 
 		OutCameraModeView.Blend(CameraMode->GetCameraModeView(), CameraMode->GetBlendWeight());
+		OutCameraModeArm.Blend(CameraMode->GetSpringArmBase(), CameraMode->GetBlendWeight());
 	}
 }
 

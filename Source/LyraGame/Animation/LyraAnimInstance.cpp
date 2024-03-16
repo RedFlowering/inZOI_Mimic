@@ -52,13 +52,13 @@ void ULyraAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
 
-	const ALyraCharacter* Character = Cast<ALyraCharacter>(GetOwningActor());
-	if (!Character)
+	const ALyraCharacter* LyraCharacter = Cast<ALyraCharacter>(GetOwningActor());
+	if (!LyraCharacter)
 	{
 		return;
 	}
 
-	ULyraCharacterMovementComponent* CharMoveComp = CastChecked<ULyraCharacterMovementComponent>(Character->GetCharacterMovement());
+	ULyraCharacterMovementComponent* CharMoveComp = CastChecked<ULyraCharacterMovementComponent>(LyraCharacter->GetCharacterMovement());
 	const FLyraCharacterGroundInfo& GroundInfo = CharMoveComp->GetGroundInfo();
 	GroundDistance = GroundInfo.GroundDistance;
 }

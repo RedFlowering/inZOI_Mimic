@@ -19,8 +19,8 @@ namespace LyraCharacter
 };
 
 
-ULyraCharacterMovementComponent::ULyraCharacterMovementComponent(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+ULyraCharacterMovementComponent::ULyraCharacterMovementComponent()
+	: Super()
 {
 }
 

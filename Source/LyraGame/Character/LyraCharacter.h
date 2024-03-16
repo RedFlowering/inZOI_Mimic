@@ -7,6 +7,7 @@
 #include "GameplayTagAssetInterface.h"
 #include "ModularCharacter.h"
 #include "Teams/LyraTeamAgentInterface.h"
+#include "AlsCharacter.h"
 
 #include "LyraCharacter.generated.h"
 
@@ -19,6 +20,7 @@ class IRepChangedPropertyTracker;
 class UAbilitySystemComponent;
 class UInputComponent;
 class ULyraAbilitySystemComponent;
+class USpringArmComponentBase;
 class ULyraCameraComponent;
 class ULyraHealthComponent;
 class ULyraPawnExtensionComponent;
@@ -93,7 +95,7 @@ struct TStructOpsTypeTraits<FSharedRepMovement> : public TStructOpsTypeTraitsBas
  *	New behavior should be added via pawn components when possible.
  */
 UCLASS(Config = Game, Meta = (ShortTooltip = "The base character pawn class used by this project."))
-class LYRAGAME_API ALyraCharacter : public AModularCharacter, public IAbilitySystemInterface, public IGameplayCueInterface, public IGameplayTagAssetInterface, public ILyraTeamAgentInterface
+class LYRAGAME_API ALyraCharacter : public AAlsCharacter, public IAbilitySystemInterface, public IGameplayCueInterface, public IGameplayTagAssetInterface, public ILyraTeamAgentInterface
 {
 	GENERATED_BODY()
 
@@ -194,6 +196,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<ULyraHealthComponent> HealthComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USpringArmComponentBase> SpringArm;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<ULyraCameraComponent> CameraComponent;

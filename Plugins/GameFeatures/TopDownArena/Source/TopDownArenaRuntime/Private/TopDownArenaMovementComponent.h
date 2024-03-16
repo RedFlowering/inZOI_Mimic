@@ -15,7 +15,7 @@ class UTopDownArenaMovementComponent : public ULyraCharacterMovementComponent
 
 public:
 
-	UTopDownArenaMovementComponent(const FObjectInitializer& ObjectInitializer);
+	UTopDownArenaMovementComponent();
 
 	//~UMovementComponent interface
 	virtual float GetMaxSpeed() const override;

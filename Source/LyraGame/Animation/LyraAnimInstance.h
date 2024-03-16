@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Animation/AnimInstance.h"
+#include "AlsAnimationInstance.h"
 #include "GameplayEffectTypes.h"
 #include "LyraAnimInstance.generated.h"
 
@@ -15,7 +15,7 @@ class UAbilitySystemComponent;
  *	The base game animation instance class used by this project.
  */
 UCLASS(Config = Game)
-class ULyraAnimInstance : public UAnimInstance
+class ULyraAnimInstance : public UAlsAnimationInstance
 {
 	GENERATED_BODY()
 

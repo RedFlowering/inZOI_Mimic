@@ -4,6 +4,7 @@
 
 #include "Engine/World.h"
 #include "GameplayTagContainer.h"
+#include "SpringArmComponentBase.h"
 
 #include "LyraCameraMode.generated.h"
 
@@ -56,6 +57,19 @@ public:
 	float FieldOfView;
 };
 
+struct FLyraCameraModeArm
+{
+public:
+
+	FLyraCameraModeArm();
+
+	void Blend(const FLyraCameraModeArm& Other, float OtherWeight);
+
+public:
+	FVector Location;
+	FRotator Rotation;
+	float Length;
+};
 
 /**
  * ULyraCameraMode
@@ -78,6 +92,8 @@ public:
 	AActor* GetTargetActor() const;
 
 	const FLyraCameraModeView& GetCameraModeView() const { return View; }
+
+	const FLyraCameraModeArm& GetSpringArmBase() const { return Arm; }
 
 	// Called when this camera mode is activated on the camera mode stack.
 	virtual void OnActivation() {};
@@ -114,6 +130,8 @@ protected:
 
 	// View output produced by the camera mode.
 	FLyraCameraModeView View;
+
+	FLyraCameraModeArm Arm;
 
 	// The horizontal field of view (in degrees).
 	UPROPERTY(EditDefaultsOnly, Category = "View", Meta = (UIMin = "5.0", UIMax = "170", ClampMin = "5.0", ClampMax = "170.0"))
@@ -173,7 +191,7 @@ public:
 
 	void PushCameraMode(TSubclassOf<ULyraCameraMode> CameraModeClass);
 
-	bool EvaluateStack(float DeltaTime, FLyraCameraModeView& OutCameraModeView);
+	bool EvaluateStack(float DeltaTime, FLyraCameraModeView& OutCameraModeView, FLyraCameraModeArm& OutCameraModeArm);
 
 	void DrawDebug(UCanvas* Canvas) const;
 
@@ -185,7 +203,7 @@ protected:
 	ULyraCameraMode* GetCameraModeInstance(TSubclassOf<ULyraCameraMode> CameraModeClass);
 
 	void UpdateStack(float DeltaTime);
-	void BlendStack(FLyraCameraModeView& OutCameraModeView) const;
+	void BlendStack(FLyraCameraModeView& OutCameraModeView, FLyraCameraModeArm& OutCameraModeArm) const;
 
 protected:
 

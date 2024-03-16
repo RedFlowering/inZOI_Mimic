@@ -140,6 +140,11 @@ void AAlsCharacter::PostInitializeComponents()
 	Super::PostInitializeComponents();
 }
 
+void AAlsCharacter::PreInitializeComponents()
+{
+	Super::PreInitializeComponents();
+}
+
 void AAlsCharacter::BeginPlay()
 {
 	ALS_ENSURE(IsValid(Settings));
@@ -184,6 +189,11 @@ void AAlsCharacter::BeginPlay()
 	RefreshGait();
 
 	OnOverlayModeChanged(OverlayMode);
+}
+
+void AAlsCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
 }
 
 void AAlsCharacter::PostNetReceiveLocationAndRotation()

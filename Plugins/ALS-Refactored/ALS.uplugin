@@ -66,6 +66,14 @@
 		{
 			"Name": "PropertyAccessNode",
 			"Enabled": true
+		},
+		{
+			"Name": "ModularGameplay",
+			"Enabled": true
+		},
+		{
+			"Name": "ModularGameplayActors",
+			"Enabled": true
 		}
 	]
 }

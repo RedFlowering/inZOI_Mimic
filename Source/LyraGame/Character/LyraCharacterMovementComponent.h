@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "GameFramework/CharacterMovementComponent.h"
+#include "AlsCharacterMovementComponent.h"
 #include "NativeGameplayTags.h"
 
 #include "LyraCharacterMovementComponent.generated.h"
@@ -43,13 +43,13 @@ struct FLyraCharacterGroundInfo
  *	The base character movement component class used by this project.
  */
 UCLASS(Config = Game)
-class LYRAGAME_API ULyraCharacterMovementComponent : public UCharacterMovementComponent
+class LYRAGAME_API ULyraCharacterMovementComponent : public UAlsCharacterMovementComponent
 {
 	GENERATED_BODY()
 
 public:
 
-	ULyraCharacterMovementComponent(const FObjectInitializer& ObjectInitializer);
+	ULyraCharacterMovementComponent();
 
 	virtual void SimulateMovement(float DeltaTime) override;
 
