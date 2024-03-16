@@ -1,4 +1,4 @@
-// Copyright 2024 RedFlowering.
+// Copyright 2024 RedFlowering, All Rights Reserved.
 
 #include "LyraCameraMode_Base.h"
 #include "GameFramework/Character.h"
