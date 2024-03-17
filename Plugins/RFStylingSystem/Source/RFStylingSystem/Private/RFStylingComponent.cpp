@@ -68,10 +68,11 @@ void URFStylingComponent::MergeStylingMesh(ACharacter* RootCharacter)
 		for (auto& Elem : CharData.DefaultPresetTags)
 		{
 			// StylingData : 메인 골조에 옷 입히기
-			FRFStylingItemID StylingPartId = Elem.Value.GetID_PartTypeAll();
+			FRFStylingItemID StylingItemID = Elem.Value.GetID_PartTypeAll();
 			FStylingPartData StylingPartData;
+			FBodyPartData BodyPartData;
 
-			if (GetStylingPartData(StylingPartId, StylingPartData))
+			if (GetStylingPartData(StylingItemID, StylingPartData))
 			{
 				if (StylingPartData.StylingPartTag.HasTag(Elem.Key))
 				{
@@ -86,23 +87,19 @@ void URFStylingComponent::MergeStylingMesh(ACharacter* RootCharacter)
 					}
 					continue;
 				}
-				else // BodyPartData.BodyPartTag
+
+			}
+
+			// BodyPartData : 메인 골조와 옷 입히고 난 후 남는 부분 바디 파츠로 채우기
+			if (GetBodyPartData(StylingItemID, BodyPartData))
+			{
+				if (!BodyPartData.BodyPartTag.MatchesTag(Elem.Key))
+					continue;
+
+				if (BodyPartData.bMergeable)
 				{
-					// BodyPartData : 메인 골조와 옷 입히고 난 후 남는 부분 바디 파츠로 채우기
-					FRFStylingItemID BodyPartId = Elem.Value.GetID_PartTypeAll();
-					FBodyPartData BodyPartData;
-
-					if (GetBodyPartData(BodyPartId, BodyPartData))
-					{
-						if(!BodyPartData.BodyPartTag.MatchesTag(Elem.Key))
-							continue;
-
-						if (BodyPartData.bMergeable)
-						{
-							USkeletalMesh* BodyPartMeshData = BodyPartData.BodyPartClass.LoadSynchronous();
-							MergeMeshes.Add(BodyPartMeshData);
-						}
-					}
+					USkeletalMesh* BodyPartMeshData = BodyPartData.BodyPartClass.LoadSynchronous();
+					MergeMeshes.Add(BodyPartMeshData);
 				}
 			}
 		}
