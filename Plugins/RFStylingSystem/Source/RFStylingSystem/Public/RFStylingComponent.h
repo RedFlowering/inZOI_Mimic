@@ -7,6 +7,8 @@
 #include "RFStylingActor.h"
 #include "RFStylingComponent.generated.h"
 
+class ACharacter;
+
 UCLASS(BlueprintType, Blueprintable, ClassGroup = (Styling), meta = (BlueprintSpawnableComponent))
 class RFSTYLINGSYSTEM_API URFStylingComponent : public UActorComponent
 {
@@ -19,16 +21,19 @@ public:
 
 	ARFStylingActor* GetStylingActor() { return StylingActorInstance; }
 
-	void MergeStylingMesh();
+	void MergeStylingMesh(ACharacter* RootCharacter);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "RF Styling System")
 	bool GetCharacterData(FRFStylingItemID StylingPresetID, FCharacterData& CharacterData) const;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "RF Styling System")
-	bool GetBodyPartData(FRFStylingItemID StylingPresetID, FBodyPartData& CharacterData) const;
+	bool GetBodyPartData(FRFStylingItemID StylingPresetID, FBodyPartData& BodyPartData) const;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "RF Styling System")
-	bool GetStylingPartData(FRFStylingItemID StylingPresetID, FStylingPartData& CharacterData) const;
+	bool GetStylingPartData(FRFStylingItemID StylingPresetID, FStylingPartData& StylingPartData) const;
+
+private:
+	void DebugStylingActor();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Styling", meta = (AllowPrivateAccess = "true"))
@@ -39,5 +44,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Styling", meta = (AllowPrivateAccess = "true"))
 	FRFStylingItemID StylingID;
+
+private:
+	UPROPERTY(Category = Debug, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USkeletalMeshComponent> DebugVisualMesh;
+
+	UPROPERTY(Category = Debug, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAnimInstance> DebugVisualAnim;
 };
 

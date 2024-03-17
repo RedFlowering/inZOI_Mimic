@@ -132,6 +132,7 @@ void URFStylingComponent::MergeStylingMesh(ACharacter* RootCharacter)
 			StylingActorInstance->GetVisualMesh()->SetSkeletalMesh(TargetMesh);
 			StylingActorInstance->GetVisualMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
 			StylingActorInstance->GetVisualMesh()->SetAnimClass(CharData.AnimClass);
+
 		}
 		else
 		{

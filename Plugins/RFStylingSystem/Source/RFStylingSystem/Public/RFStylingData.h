@@ -58,7 +58,7 @@ public:
 	FName MergeTargetTag = FName("MergeTargetRoot");
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling")
-	TSoftObjectPtr<USkeletalMesh> BodyPartClass;
+	TSoftObjectPtr<USkeletalMesh> BodyPartClass = nullptr;
 };
 
 // Styling Part Data
@@ -80,12 +80,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mergeable", meta = (EditCondition = "bMergeable"))
 	FName MergeTargetMeshTag = FName("MergeTargetRoot");	
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cosmetic")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling", meta = (EditCondition = "!bMergeable"))
+	bool bUseOffsetTransform = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling", meta = (EditCondition = "bUseCustomTransform"))
+	FTransform OffsetTransform;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling")
 	TSoftObjectPtr<USkeletalMesh> StylingPartClass = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cosmetic", meta = (EditCondition = "!bMergeable"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling", meta = (EditCondition = "!bMergeable"))
 	TSubclassOf<UAnimInstance> AnimClass = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cosmetic")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling")
 	TArray<TSoftObjectPtr<UMaterialInterface>> Materials;
 };

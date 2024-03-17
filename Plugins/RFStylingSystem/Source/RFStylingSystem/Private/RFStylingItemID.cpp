@@ -7,7 +7,7 @@ FRFStylingItemID::FRFStylingItemID(int32 ID)
 {
 	if (ID > 99999999)
 	{
-		UE_LOG(RFLogSystem, Error, TEXT("[%d] ID Must Be 8 Character"), ID);
+		UE_LOG(RFLogSystem, Error, TEXT("[RF Styling System] [%d] ID Must Be 8 Character"), ID);
 
 		ID = ID % 100000000;
 	}
