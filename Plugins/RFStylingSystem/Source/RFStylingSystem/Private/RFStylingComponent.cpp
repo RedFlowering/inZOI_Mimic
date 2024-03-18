@@ -76,18 +76,32 @@ void URFStylingComponent::MergeStylingMesh(ACharacter* RootCharacter)
 			{
 				if (StylingPartData.StylingPartTag.HasTag(Elem.Key))
 				{
+					USkeletalMesh* StylingPartMeshData = StylingPartData.StylingPartClass.LoadSynchronous();
+
 					if (StylingPartData.bMergeable)
 					{
-						USkeletalMesh* StylingPartMeshData = StylingPartData.StylingPartClass.LoadSynchronous();
 						MergeMeshes.Add(StylingPartMeshData);
 					}
-
-					// if (StylingPartData.bUseOffsetTransform)
+					else
 					{
+						if (StylingPartData.bUseOffsetTransform)
+						{
+							TArray<FGameplayTag> Array = StylingPartData.StylingPartTag.GetGameplayTagArray();
+
+							USkeletalMeshComponent* SKMComp = NewObject<USkeletalMeshComponent>(StylingActorInstance->GetVisualMesh(), USkeletalMeshComponent::StaticClass(), Array.FindByKey(Elem.Key)->GetTagName());
+							SKMComp->AttachToComponent(StylingActorInstance->GetVisualMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, FName("root"));
+							SKMComp->RegisterComponent();
+
+							SKMComp->SetLeaderPoseComponent(StylingActorInstance->GetVisualMesh());
+
+							SKMComp->SetRelativeTransform(StylingPartData.OffsetTransform);
+							SKMComp->SetSkeletalMesh(StylingPartMeshData);
+							SKMComp->SetAnimClass(StylingPartData.AnimClass);
+						}
 					}
+
 					continue;
 				}
-
 			}
 
 			// BodyPartData : 메인 골조와 옷 입히고 난 후 남는 부분 바디 파츠로 채우기
