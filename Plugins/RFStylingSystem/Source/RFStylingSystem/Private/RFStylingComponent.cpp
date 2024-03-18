@@ -59,7 +59,12 @@ void URFStylingComponent::InitStylingMesh()
 	if (GetCharacterData(StylingID, CharacterData))
 	{
 		USkeletalMesh* CharacterMeshData = CharacterData.VisualMeshClass.LoadSynchronous();
-		SetEquipmentItem(CharacterData.CharacterTypeTag, FEquipmentCacheData(StylingID, CharacterMeshData));
+
+		FEquipmentCacheData CharacterCacheData;
+		CharacterCacheData.ItemID = StylingID;
+		CharacterCacheData.SkeletalMesh = CharacterMeshData;
+
+		SetEquipmentItem(CharacterData.CharacterTypeTag, CharacterCacheData);
 
 		for (auto& Elem : CharacterData.DefaultPresetTags)
 		{
@@ -73,7 +78,15 @@ void URFStylingComponent::InitStylingMesh()
 				if (StylingPartData.StylingPartTag.MatchesTag(Elem.Key))
 				{
 					USkeletalMesh* StylingMeshData = StylingPartData.StylingPartClass.LoadSynchronous();
-					SetEquipmentItem(StylingPartData.StylingPartTag, FEquipmentCacheData(StylingItemID, StylingMeshData));
+					
+					FEquipmentCacheData StylingCacheData;
+					StylingCacheData.ItemID = StylingItemID;
+					StylingCacheData.SkeletalMesh = StylingMeshData;
+					StylingCacheData.bMergeable = StylingPartData.bMergeable;
+					StylingCacheData.OffsetTransform = StylingPartData.OffsetTransform;
+					StylingCacheData.AnimClass = StylingPartData.AnimClass;
+
+					SetEquipmentItem(StylingPartData.StylingPartTag, StylingCacheData);
 
 					continue;
 				}
@@ -86,7 +99,13 @@ void URFStylingComponent::InitStylingMesh()
 					continue;
 
 				USkeletalMesh* BodyMeshData = BodyPartData.BodyPartClass.LoadSynchronous();
-				SetEquipmentItem(BodyPartData.BodyPartTag, FEquipmentCacheData(StylingItemID, BodyMeshData));
+
+				FEquipmentCacheData BodyCacheData;
+				BodyCacheData.ItemID = StylingItemID;
+				BodyCacheData.SkeletalMesh = BodyMeshData;
+				BodyCacheData.bMergeable = BodyPartData.bMergeable;
+
+				SetEquipmentItem(BodyPartData.BodyPartTag, BodyCacheData);
 			}
 		}
 	}
@@ -124,7 +143,26 @@ bool URFStylingComponent::MergeStylingVisualMesh()
 
 		for (auto& Elem : EquipmentSlot)
 		{
-			MergeMeshes.Add(Elem.Value.SkeletalMesh);
+			if (Elem.Value.bMergeable)
+			{
+				MergeMeshes.Add(Elem.Value.SkeletalMesh);
+			}
+			else
+			{
+				if(!Elem.Value.SkeletalMesh)
+					continue;
+
+				USkeletalMeshComponent* SKMComp = NewObject<USkeletalMeshComponent>(GetStylingActorInstancne()->GetVisualMesh(), USkeletalMeshComponent::StaticClass(), Elem.Key.GetTagName());
+				SKMComp->AttachToComponent(GetStylingActorInstancne()->GetVisualMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, FName("root"));
+				SKMComp->RegisterComponent();
+
+				SKMComp->SetLeaderPoseComponent(GetStylingActorInstancne()->GetVisualMesh());
+
+				SKMComp->SetRelativeTransform(Elem.Value.OffsetTransform);
+
+				SKMComp->SetSkeletalMesh(Elem.Value.SkeletalMesh);
+				SKMComp->SetAnimClass(Elem.Value.AnimClass);
+			}
 		}
 
 		FSkeletalMeshMerge Merger(TargetMesh, MergeMeshes, SectionMappings, 0);
@@ -147,7 +185,7 @@ bool URFStylingComponent::MergeStylingVisualMesh()
 	return false;
 }
 
-// Debug : 차일듸 액터의 머지 결과물 보는 용도
+// Debug : 차일드 액터의 머지 결과물 보는 용도
 void URFStylingComponent::DebugStylingActor()
 {
 	DebugVisualMesh = StylingActorInstance->GetVisualMesh();

@@ -15,18 +15,16 @@ struct RFSTYLINGSYSTEM_API FEquipmentCacheData
 {
 	GENERATED_BODY()
 
-	FEquipmentCacheData() = default;
-
-	FEquipmentCacheData(FRFStylingItemID ID, TObjectPtr<USkeletalMesh> SKM)
-	{
-		IteamID = ID;
-		SkeletalMesh = SKM;
-	}
-
 public:
-	FRFStylingItemID IteamID;
+	FRFStylingItemID ItemID;
 
 	TObjectPtr<USkeletalMesh> SkeletalMesh;
+
+	bool bMergeable = true;
+
+	FTransform OffsetTransform = FTransform(FQuat::Identity, FVector::ZeroVector, FVector::ZeroVector);
+
+	TSubclassOf<UAnimInstance> AnimClass = nullptr;
 };
 
 UCLASS(BlueprintType, Blueprintable, ClassGroup = (Styling), meta = (BlueprintSpawnableComponent))
@@ -39,9 +37,11 @@ public:
 
 	void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-	ARFStylingActor* GetStylingActor() { return StylingActorInstance; }
+	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "RF Styling System")
+	ARFStylingActor* GetStylingActorInstancne() { return StylingActorInstance; }
 
-	void MergeStylingMesh();
+	UFUNCTION(BlueprintCallable, Category = "RF Styling System")
+	void SetEquipmentItem(FGameplayTag ItemTag, FEquipmentCacheData EquipData);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "RF Styling System")
 	bool GetCharacterData(FRFStylingItemID StylingPresetID, FCharacterData& CharacterDataRef) const;
@@ -51,11 +51,10 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "RF Styling System")
 	bool GetBodyPartData(FRFStylingItemID StylingPresetID, FBodyPartData& BodyPartDataRef) const;
-	
-	void SetEquipmentItem(FGameplayTag ItemTag, FEquipmentCacheData EquipData);
 
 protected:
-	UFUNCTION()
+	void InitStylingMesh();
+
 	bool MergeStylingVisualMesh();
 
 private:
@@ -65,19 +64,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Styling", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<ARFStylingActor> StylingActor;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Styling", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<ARFStylingActor> StylingActorInstance;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Styling", meta = (AllowPrivateAccess = "true"))
 	FRFStylingItemID StylingID;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Styling", meta = (AllowPrivateAccess = "true"))
-	TMap<FGameplayTag, FEquipmentCacheData> EquipmentSlot;
-
 private:
 	TObjectPtr<ACharacter> RootCharacter;
 
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<ARFStylingActor> StylingActorInstance;
+
 	FCharacterData CharacterData;
+
+	TMap<FGameplayTag, FEquipmentCacheData> EquipmentSlot;
 
 private:
 	UPROPERTY(Category = Debug, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))

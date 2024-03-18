@@ -74,9 +74,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mergeable")
 	bool bMergeable = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling", meta = (EditCondition = "!bMergeable"))
-	bool bUseOffsetTransform = false;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling", meta = (EditCondition = "bUseCustomTransform"))
 	FTransform OffsetTransform;
 
