@@ -53,9 +53,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling")
 	bool bMergeable = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling")
-	FName MergeTargetTag = FName("MergeTargetRoot");
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling")
 	TSoftObjectPtr<USkeletalMesh> BodyPartClass = nullptr;
@@ -69,16 +66,13 @@ struct RFSTYLINGSYSTEM_API FStylingPartData : public FTableRowBase
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling", meta = (Categories = "RF Styling System"))
-	FGameplayTagContainer StylingPartTag;
+	FGameplayTag StylingPartTag;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling", meta = (Categories = "RF Styling System"))
 	TArray<FRFStylingItemID> RemovePartIDs;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mergeable")
 	bool bMergeable = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mergeable", meta = (EditCondition = "bMergeable"))
-	FName MergeTargetMeshTag = FName("MergeTargetRoot");	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling", meta = (EditCondition = "!bMergeable"))
 	bool bUseOffsetTransform = false;
@@ -95,3 +89,4 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling")
 	TArray<TSoftObjectPtr<UMaterialInterface>> Materials;
 };
+
