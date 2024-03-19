@@ -37,7 +37,6 @@ public:
 
 	void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "RF Styling System")
 	ARFStylingActor* GetStylingActorInstancne() { return StylingActorInstance; }
 
 	UFUNCTION(BlueprintCallable, Category = "RF Styling System")

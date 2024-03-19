@@ -82,8 +82,4 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling", meta = (EditCondition = "!bMergeable"))
 	TSubclassOf<UAnimInstance> AnimClass = nullptr;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Styling")
-	TArray<TSoftObjectPtr<UMaterialInterface>> Materials;
 };
-

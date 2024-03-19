@@ -27,6 +27,9 @@ public class RFStylingSystem : ModuleRules
 			{
 				"Core",
                 "GameplayTags",
+				"UMG",
+                "UMGEditor",
+                "UnrealEd",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
