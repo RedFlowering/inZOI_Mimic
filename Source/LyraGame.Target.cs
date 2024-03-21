@@ -245,9 +245,9 @@ public class LyraGameTarget : TargetRules
 							}
 						}
 					}
-					catch (JsonParseException ParseException)
+					catch (Exception e)
 					{
-						Logger.LogWarning("Failed to parse GameFeaturePlugin file {Name}, disabling. Exception: {1}", PluginFile.GetFileNameWithoutExtension(), ParseException.Message);
+						Logger.LogWarning("Failed to parse GameFeaturePlugin file {Name}, disabling. Exception: {1}", PluginFile.GetFileNameWithoutExtension(), e.Message);
 						bForceDisabled = true;
 					}
 

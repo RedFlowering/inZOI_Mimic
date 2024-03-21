@@ -74,7 +74,7 @@ bool UEditorValidator_Load::GetLoadWarningsAndErrorsForPackage(const FString& Pa
 	}
 
 	// Skip World or External Actor packages
-	if (ExistingPackage && UWorld::IsWorldOrExternalActorPackage(ExistingPackage))
+	if (ExistingPackage && UWorld::IsWorldOrWorldExternalPackage(ExistingPackage))
 	{
 		return true;
 	}
