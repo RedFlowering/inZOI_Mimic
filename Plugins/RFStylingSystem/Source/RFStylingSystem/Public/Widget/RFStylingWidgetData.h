@@ -25,9 +25,11 @@ struct RFSTYLINGSYSTEM_API FButtonStylingData : public FTableRowBase
 	GENERATED_BODY()
 
 public:
+	// String Table Key (for Export CSV)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RF Button Style")
 	FRFStylingItemID ButtonID;
 	
+	// String Table String (for Export CSV)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RF Button Style")
 	FString Text;
 

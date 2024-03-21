@@ -288,6 +288,7 @@ void ULyraHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputCompo
 					LyraIC->BindNativeAction(InputConfig, LyraGameplayTags::InputTag_Look_Stick, ETriggerEvent::Triggered, this, &ThisClass::Input_LookStick, /*bLogIfNotFound=*/ false);
 					LyraIC->BindNativeAction(InputConfig, LyraGameplayTags::InputTag_Crouch, ETriggerEvent::Triggered, this, &ThisClass::Input_Crouch, /*bLogIfNotFound=*/ false);
 					LyraIC->BindNativeAction(InputConfig, LyraGameplayTags::InputTag_AutoRun, ETriggerEvent::Triggered, this, &ThisClass::Input_AutoRun, /*bLogIfNotFound=*/ false);
+					LyraIC->BindNativeAction(InputConfig, LyraGameplayTags::InputTag_Zoom, ETriggerEvent::Triggered, this, &ThisClass::Input_Zoom, /*bLogIfNotFound=*/ false);
 				}
 			}
 		}
@@ -465,7 +466,24 @@ void ULyraHeroComponent::Input_AutoRun(const FInputActionValue& InputActionValue
 		{
 			// Toggle auto running
 			Controller->SetIsAutoRunning(!Controller->GetIsAutoRunning());
-		}	
+		}
+	}
+}
+
+void ULyraHeroComponent::Input_Zoom(const FInputActionValue& InputActionValue)
+{
+	ALyraCharacter* Character = GetPawn<ALyraCharacter>();
+
+	if (Character)
+	{
+		const auto Value{ InputActionValue.Get<float>() };
+
+		const auto TimeDilation{ Character->GetWorldSettings()->GetEffectiveTimeDilation() };
+		const auto DeltaTime{ TimeDilation > SMALL_NUMBER ? GetWorld()->GetDeltaSeconds() / TimeDilation : GetWorld()->DeltaRealTimeSeconds };
+
+		const auto Sense { Character->GetSpringArm()->GetZoomSensitivity() };
+
+		Character->CameraZoom(Value * Sense * DeltaTime);
 	}
 }
 

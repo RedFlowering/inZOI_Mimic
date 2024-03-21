@@ -148,6 +148,12 @@ public:
 
 	virtual bool UpdateSharedReplication();
 
+	void CameraZoom(float Delta);
+
+	AActor* GetCameraOwner();
+
+	USpringArmComponentBase* GetSpringArm() { return SpringArm; }
+
 protected:
 
 	virtual void OnAbilitySystemInitialized();
@@ -189,8 +195,7 @@ protected:
 
 	virtual bool CanJumpInternal_Implementation() const;
 
-private:
-
+protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyra|Character", Meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<ULyraPawnExtensionComponent> PawnExtComponent;
 

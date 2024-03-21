@@ -13,8 +13,21 @@ public:
 	void SetViewPitchMinMax(float PitchMin, float PitchMax) { ViewPitchMin = PitchMin; ViewPitchMax = PitchMax; }
 
 	void SetUseTargetArmLagSubstepping(bool bUse) { bUseTargetArmLagSubstepping = bUse; }
-	void SetTargetArmLagMaxTimeStep(float TimeStep) { TargetArmLagMaxTimeStep  = TimeStep;
-	}
+
+	void SetTargetArmLagMaxTimeStep(float TimeStep) { TargetArmLagMaxTimeStep  = TimeStep; }
+
+	void SetZoomSensitivity(float Sense) { ZoomSensitivity = Sense; }
+		  
+	void SetMinZoomValue(float MinValue) { MinZoomValue = MinValue; }
+		  
+	void SetMaxZoomValue(float MaxValue) { MaxZoomValue = MaxValue; }
+
+	float GetZoomSensitivity() { return ZoomSensitivity; }
+
+	float GetMinZoomValue() { return MinZoomValue; }
+
+	float GetMaxZoomValue() { return MaxZoomValue; }
+
 protected:
 	virtual void OnRegister() override;
 
@@ -32,11 +45,21 @@ protected:
 	
 	float PreviousTargetArmLength = 0.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Zoom)
+	float ZoomSensitivity = 50.f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Zoom)
+	float MinZoomValue = 50.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Zoom)
+	float MaxZoomValue = 500.0f;
+
 protected:
 	// Minimum view pitch (in degrees).
 	float ViewPitchMin = -89.0f;
 
 	// Maximum view pitch (in degrees).
 	float ViewPitchMax = 89.0f;
-	
+
+
 };

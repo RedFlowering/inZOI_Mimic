@@ -34,6 +34,8 @@ protected:
 
 	virtual FRotator GetPivotRotation() const;
 
+	float GetSpringArmLength() const;
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Third Person")
 	float AdjustPivotHeight = 0.0f;
@@ -42,10 +44,22 @@ protected:
 	float AdjustPivotRight = 0.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Third Person")
+	FRotator AdjustPivotRotate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Third Person|Spring Arm")
 	float SpringArmLength = 400.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Third Person")
-	FRotator AdjustPivotRotate;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Third Person|Spring Arm")
+	float ZoomSensitivity = 50.f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Third Person|Spring Arm")
+	float MinZoomValue = 50.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Third Person|Spring Arm")
+	float MaxZoomValue = 500.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Third Person|Control")
+	bool bUsePawnControlRotation = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lag")
 	bool bEnableCameraLag = true;

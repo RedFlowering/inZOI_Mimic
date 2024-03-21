@@ -17,8 +17,15 @@ void ULyraCameraMode_Base::OnActivation()
 	if (SpringArm)
 	{
 		SpringArm->SetViewPitchMinMax(ViewPitchMin, ViewPitchMax);
-		SpringArm->SetRelativeLocation(FVector::ZeroVector);			
+		SpringArm->SetRelativeLocation(FVector::ZeroVector);
+		
 		SpringArm->TargetArmLength = SpringArmLength;
+		SpringArm->SetZoomSensitivity(ZoomSensitivity);
+		SpringArm->SetMinZoomValue(MinZoomValue);
+		SpringArm->SetMaxZoomValue(MaxZoomValue);
+
+		SpringArm->bUsePawnControlRotation = bUsePawnControlRotation;
+
 		SpringArm->bDoCollisionTest = true;
 		SpringArm->bEnableCameraLag = bEnableCameraLag;
 		SpringArm->bEnableCameraRotationLag = bEnableCameraRotationLag;
@@ -51,7 +58,7 @@ void ULyraCameraMode_Base::UpdateView(float DeltaTime)
 		// Spring Arm
 		Arm.Location = GetPivotLocation();
 		Arm.Rotation = GetPivotRotation();
-		Arm.Length = SpringArmLength;
+		Arm.Length = GetSpringArmLength();
 	}
 }
 
@@ -100,4 +107,14 @@ FRotator ULyraCameraMode_Base::GetPivotRotation() const
 	}
 
 	return FRotator3d::ZeroRotator;
+}
+
+float ULyraCameraMode_Base::GetSpringArmLength() const
+{
+	const AActor* TargetActor = GetTargetActor();
+	check(TargetActor);
+
+	USpringArmComponent* TargetArm = TargetActor->GetComponentByClass<USpringArmComponentBase>();
+
+	return TargetArm->TargetArmLength;
 }
