@@ -16,11 +16,15 @@ public:
 
 	void SetTargetArmLagMaxTimeStep(float TimeStep) { TargetArmLagMaxTimeStep  = TimeStep; }
 
-	void SetZoomSensitivity(float Sense) { ZoomSensitivity = Sense; }
+	void SetRotationSensitivity(float RotSense) { RotationSensitivity = RotSense; }
+
+	void SetZoomSensitivity(float ZoomSense) { ZoomSensitivity = ZoomSense; }
 		  
 	void SetMinZoomValue(float MinValue) { MinZoomValue = MinValue; }
 		  
 	void SetMaxZoomValue(float MaxValue) { MaxZoomValue = MaxValue; }
+
+	float GetRotationSensitivity() { return RotationSensitivity; }
 
 	float GetZoomSensitivity() { return ZoomSensitivity; }
 
@@ -44,6 +48,9 @@ protected:
 	float TargetArmLagMaxTimeStep = 0.016667f;	
 	
 	float PreviousTargetArmLength = 0.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Zoom)
+	float RotationSensitivity = 50.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Zoom)
 	float ZoomSensitivity = 50.f;

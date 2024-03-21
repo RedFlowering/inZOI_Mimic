@@ -405,9 +405,9 @@ void ULyraHeroComponent::Input_Move(const FInputActionValue& InputActionValue)
 
 void ULyraHeroComponent::Input_LookMouse(const FInputActionValue& InputActionValue)
 {
-	APawn* Pawn = GetPawn<APawn>();
+	ALyraCharacter* Character = GetPawn<ALyraCharacter>();
 
-	if (!Pawn)
+	if (!Character)
 	{
 		return;
 	}
@@ -416,12 +416,12 @@ void ULyraHeroComponent::Input_LookMouse(const FInputActionValue& InputActionVal
 
 	if (Value.X != 0.0f)
 	{
-		Pawn->AddControllerYawInput(Value.X);
+		Character->AddControllerYawInput(Value.X * Character->GetSpringArm()->GetRotationSensitivity());
 	}
 
 	if (Value.Y != 0.0f)
 	{
-		Pawn->AddControllerPitchInput(Value.Y);
+		Character->AddControllerPitchInput(Value.Y * Character->GetSpringArm()->GetRotationSensitivity());
 	}
 }
 
