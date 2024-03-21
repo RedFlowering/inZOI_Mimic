@@ -50,7 +50,7 @@ protected:
 	float PreviousTargetArmLength = 0.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Zoom)
-	float RotationSensitivity = 50.f;
+	float RotationSensitivity = 5.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Zoom)
 	float ZoomSensitivity = 50.f;
