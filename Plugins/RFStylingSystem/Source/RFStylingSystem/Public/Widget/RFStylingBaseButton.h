@@ -4,7 +4,7 @@
 
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
-#include "Components/TextBlock.h"
+#include "CommonTextBlock.h"
 #include "../RFStylingItemID.h"
 #include "RFStylingBaseButton.generated.h"
 
@@ -16,8 +16,11 @@ class URFStylingBaseButton : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	URFStylingBaseButton(const FObjectInitializer& ObjectInitializer);
+
 private:
-	virtual void NativeConstruct() override;
+	virtual void NativeOnInitialized() override;
 
 public:
 	UFUNCTION()
@@ -27,7 +30,14 @@ public:
 	virtual void OnClickEvent();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = RFStyling)
-	bool GetThemeButtonStyle(FRFStylingItemID ButtonDataID, FButtonStylingData& ButtonDataRef) const;
+	bool GetButtonStyle(FRFStylingItemID ButtonDataID, FStylingButtonData& ButtonDataRef) const;
+
+	bool InitButtonStyle(float ButtonAlpha);
+
+protected:
+	bool SelectedButton();
+
+	bool UnselectedButton();
 
 public:
 	UPROPERTY()
@@ -43,6 +53,6 @@ public:
 	class UButton* Button;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	class UTextBlock* Text;
+	class UCommonTextBlock* Text;
 };
 

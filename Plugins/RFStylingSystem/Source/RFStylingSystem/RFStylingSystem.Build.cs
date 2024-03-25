@@ -27,9 +27,6 @@ public class RFStylingSystem : ModuleRules
 			{
 				"Core",
                 "GameplayTags",
-				"UMG",
-                "UMGEditor",
-                "UnrealEd",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -42,6 +39,10 @@ public class RFStylingSystem : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+                "UnrealEd",
+                "UMG",
+                "UMGEditor",
+                "CommonUI",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

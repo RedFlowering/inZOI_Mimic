@@ -7,9 +7,35 @@
 #include "Blueprint/WidgetTree.h"
 #include "Kismet2/BlueprintEditorUtils.h"
 
-void URFStylingBaseButton::NativeConstruct()
+
+
+URFStylingBaseButton::URFStylingBaseButton(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
-	Super::NativeConstruct();
+
+}
+
+void URFStylingBaseButton::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	Button->OnClicked.AddDynamic(this, &URFStylingBaseButton::OnClick);
+
+	ClickEvent.AddDynamic(this, &URFStylingBaseButton::OnClickEvent);
+}
+
+void URFStylingBaseButton::OnClick()
+{
+	ClickEvent.Broadcast();
+}
+
+void URFStylingBaseButton::OnClickEvent()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Click!"));
+}
+
+bool URFStylingBaseButton::InitButtonStyle(float ButtonAlpha)
+{
 	/*
 	UWidgetBlueprintGeneratedClass* WidgetBGC = Cast<UWidgetBlueprintGeneratedClass>(GetClass());
 
@@ -29,28 +55,32 @@ void URFStylingBaseButton::NativeConstruct()
 	*/
 
 	// 위젯 텍스트와 텍스쳐는 Localization을 위해 Table 작성 필요
-	FButtonStylingData ButtonData;
+	FStylingButtonData ButtonData;
 
-	if (GetThemeButtonStyle(ButtonID, ButtonData))
+	if (GetButtonStyle(ButtonID, ButtonData))
 	{
-		Button->SetStyle(ButtonData.Style);
-		Button->SetColorAndOpacity(ButtonData.ColorAndOpacity);
-		Button->SetBackgroundColor(ButtonData.BackgroundColor);
+		Button->SetStyle(ButtonData.ButtonStyle);
+		Button->SetColorAndOpacity(ButtonData.ButtonColorAndOpacity);
+		ButtonData.ButtonBackgroundColor.A = ButtonAlpha;
+		Button->SetBackgroundColor(ButtonData.ButtonBackgroundColor);
 
+		Text->SetStyle(nullptr);
 		Text->SetText(FText::FromString(ButtonData.Text));
+		Text->SetFont(ButtonData.TextFont);
+		Text->SetColorAndOpacity(ButtonData.TextColorAndOpacity);
+
+		return true;
 	}
 
-	Button->OnClicked.AddDynamic(this, &URFStylingBaseButton::OnClick);
-
-	ClickEvent.AddDynamic(this, &URFStylingBaseButton::OnClickEvent);
+	return false;
 }
 
-void URFStylingBaseButton::OnClick()
+bool URFStylingBaseButton::SelectedButton()
 {
-	ClickEvent.Broadcast();
+	return InitButtonStyle(1.0f);
 }
 
-void URFStylingBaseButton::OnClickEvent()
+bool URFStylingBaseButton::UnselectedButton()
 {
-
+	return InitButtonStyle(0.0f);
 }
