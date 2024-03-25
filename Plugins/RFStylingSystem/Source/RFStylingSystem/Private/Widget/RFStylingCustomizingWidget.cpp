@@ -28,10 +28,10 @@ void URFStylingCustomizingWidget::SetOnClickThemeButton(FRFStylingItemID ButtonI
 			GetCurrentThemeButton()->SetActivateThemeButton();
 
 			// 해당 버튼에 맞는 ThemeViewer Switching
-			if(!ThemeViewer)
+			if(!ThemeViewerSwitcher)
 				break;
 
-			ThemeViewer->SetActiveWidgetIndex((int32)elem->ThemeType);
+			ThemeViewerSwitcher->SetActiveWidgetIndex((int32)elem->ThemeType);
 			break;
 		}
 	}

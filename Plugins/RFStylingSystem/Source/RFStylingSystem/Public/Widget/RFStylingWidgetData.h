@@ -10,7 +10,7 @@
 #include "RFStylingWidgetData.generated.h"
 
 // Customizing Widget Switcher Index
-UENUM()
+UENUM(BlueprintType)
 enum class ERFStylingCustomizingTheme : uint8
 {
 	Presets,
@@ -18,6 +18,43 @@ enum class ERFStylingCustomizingTheme : uint8
 	Body,
 	Clothes,
 	ClothesCreating,
+};
+
+// Presets EnumType
+UENUM(BlueprintType)
+enum class ERFStylingPresetsAgeType : uint8
+{
+	Youth,
+	Middle,
+	Elderly,
+	AgeType_Count,
+};
+
+UENUM(BlueprintType)
+enum class ERFStylingPresetsBodyType : uint8
+{
+	BodyType1,
+	BodyType2,
+	BodyType3,
+	BodyType_Count,
+};
+
+UENUM(BlueprintType)
+enum class ERFStylingPresetsExpressType : uint8
+{
+	ExpressType1,
+	ExpressType2,
+	ExpressType3,
+	ExpressType_Count,
+};
+
+UENUM(BlueprintType)
+enum class ERFStylingPresetsPosesType : uint8
+{
+	PosesType1,
+	PosesType2,
+	PosesType3,
+	PosesType_Count,
 };
 
 // Localization 을 위한 테이블 정리

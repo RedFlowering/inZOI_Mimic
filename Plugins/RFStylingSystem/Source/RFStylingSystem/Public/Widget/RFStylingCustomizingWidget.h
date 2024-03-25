@@ -41,11 +41,11 @@ private:
 	TObjectPtr<ACharacter> CustomizingMannequin;
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RFStyling, meta = (BindWidget))
+	UPROPERTY(BlueprintReadWrite, Category = RFStyling, meta = (BindWidget))
 	TArray<URFStylingCustomizingThemeButton*> ThemeButtons;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RFStyling, meta = (BindWidget))
-	TObjectPtr<URFStylingCustomizngWidgetSwitcher> ThemeViewer;
+	UPROPERTY(BlueprintReadWrite, Category = RFStyling, meta = (BindWidget))
+	TObjectPtr<URFStylingCustomizngWidgetSwitcher> ThemeViewerSwitcher;
 
 private:
 	TObjectPtr<URFStylingCustomizingThemeButton> CurrentThemebutton;
