@@ -37,12 +37,10 @@ void URFStylingCustomizingThemeButton::OnClickEvent()
 
 void URFStylingCustomizingThemeButton::SetActivateThemeButton()
 {
-	IsThemeActivated = true;
 	SelectedButton();
 }
 
 void URFStylingCustomizingThemeButton::SetDeactivateThemeButton()
 {
-	IsThemeActivated = false;
 	UnselectedButton();
 }

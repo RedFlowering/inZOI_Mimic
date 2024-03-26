@@ -4,7 +4,10 @@
 
 #include "RFStylingBaseWidget.h"
 #include "RFStylingWidgetData.h"
+#include "RFStylingCustomizingTypeButton.h"
 #include "RFStylingCustomizingTypeSelector.generated.h"
+
+class URFStylingCustomizingWidget;
 
 UCLASS()
 class URFStylingCustomizingTypeSelector : public URFStylingBaseWidget
@@ -14,25 +17,24 @@ class URFStylingCustomizingTypeSelector : public URFStylingBaseWidget
 	URFStylingCustomizingTypeSelector();
 	
 public:
-	template <typename T>
-	UFUNCTION(BlueprintCallable, Category = RFStyling)
-	void NextPresetsType(TArray<T>& PresetsType, T& CurrentType);
+	int32 NextPresetsType(TArray<int32> PresetsType, int32 CurrentType);
 
-	template <typename T>
-	UFUNCTION(BlueprintCallable, Category = RFStyling)
-	void PrevPresetsType(TArray<T>& PresetsType, T& CurrentType);
+	int32 PrevPresetsType(TArray<int32> PresetsType, int32 CurrentType);
 	
 	UFUNCTION(BlueprintCallable, Category = RFStyling)
-	void SetCurrentAgeType(ERFStylingPresetsAgeType type) {CurrentAge = type;}
+	void InitTypeSelector();
 
 	UFUNCTION(BlueprintCallable, Category = RFStyling)
-	void SetCurrentBodyType(ERFStylingPresetsBodyType type) { CurrentBody = type; }
+	void SetCurrentAgeType(ERFStylingPresetsAgeType type);
 
 	UFUNCTION(BlueprintCallable, Category = RFStyling)
-	void SetCurrentExpressType(ERFStylingPresetsExpressType type) { CurrentExpress = type; }
+	void SetCurrentBodyType(ERFStylingPresetsBodyType type);
 
 	UFUNCTION(BlueprintCallable, Category = RFStyling)
-	void SetCurrentPoseType(ERFStylingPresetsPosesType type) { CurrentPose = type; }
+	void SetCurrentExpressType(ERFStylingPresetsExpressType type);
+
+	UFUNCTION(BlueprintCallable, Category = RFStyling)
+	void SetCurrentPoseType(ERFStylingPresetsPoseType type);
 
 	UFUNCTION(BlueprintCallable, Category = RFStyling)
 	ERFStylingPresetsAgeType GetCurrentAgeType() { return CurrentAge; }
@@ -44,26 +46,60 @@ public:
 	ERFStylingPresetsExpressType GetCurrentExpressType() { return CurrentExpress; }
 
 	UFUNCTION(BlueprintCallable, Category = RFStyling)
-	ERFStylingPresetsPosesType GetCurrentPoseType() { return CurrentPose; }
+	ERFStylingPresetsPoseType GetCurrentPoseType() { return CurrentPose; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RFStyling)
+	URFStylingCustomizingTypeButton* GetPrevBodyTypeButton() { return PrevBodyTypeButton; }
 
 public:
 	// Type Select
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RFStyling)
 	TArray<ERFStylingPresetsAgeType> AgeType;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RFStyling)
 	TArray<ERFStylingPresetsBodyType> BodyType;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RFStyling)
 	TArray<ERFStylingPresetsExpressType> ExpressType;
 
-	TArray<ERFStylingPresetsPosesType> PoseType;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RFStyling)
+	TArray<ERFStylingPresetsPoseType> PoseType;
 
 	// Color Picker
 	
+
+	// Bind Button
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class URFStylingCustomizingTypeButton* NextBodyTypeButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class URFStylingCustomizingTypeButton* PrevBodyTypeButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class URFStylingCustomizingTypeButton* NextExpressTypeButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class URFStylingCustomizingTypeButton* PrevExpressTypeButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class URFStylingCustomizingTypeButton* NextPoseTypeButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class URFStylingCustomizingTypeButton* PrevPoseTypeButton;
+
+	// System
+	UPROPERTY(BlueprintReadWrite, Category = RFStyling)
+	TObjectPtr<URFStylingCustomizingWidget> Owner;
+
+	UPROPERTY(BlueprintReadWrite, Category = RFStyling)
+	TArray<URFStylingCustomizingTypeButton*> TypeButtons;
+
 private:
-	ERFStylingPresetsAgeType CurrentAge = ERFStylingPresetsAgeType::Youth;
+	ERFStylingPresetsAgeType CurrentAge;
 
-	ERFStylingPresetsBodyType CurrentBody = ERFStylingPresetsBodyType::BodyType1;
+	ERFStylingPresetsBodyType CurrentBody;
 
-	ERFStylingPresetsExpressType CurrentExpress = ERFStylingPresetsExpressType::ExpressType1;
+	ERFStylingPresetsExpressType CurrentExpress;
 
-	ERFStylingPresetsPosesType CurrentPose = ERFStylingPresetsPosesType::PosesType1;
+	ERFStylingPresetsPoseType CurrentPose;
 };

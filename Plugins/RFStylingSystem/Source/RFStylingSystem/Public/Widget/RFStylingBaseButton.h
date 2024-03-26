@@ -32,6 +32,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = RFStyling)
 	bool GetButtonStyle(FRFStylingItemID ButtonDataID, FStylingButtonData& ButtonDataRef) const;
 
+	UFUNCTION(BlueprintCallable, Category = RFStyling)
 	bool InitButtonStyle(float ButtonAlpha);
 
 protected:

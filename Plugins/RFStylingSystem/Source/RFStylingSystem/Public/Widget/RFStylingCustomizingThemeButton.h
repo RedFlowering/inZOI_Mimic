@@ -29,8 +29,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RFStyling)
 	ERFStylingCustomizingTheme ThemeType;
 
-	bool IsThemeActivated = false;
-
 	UPROPERTY(BlueprintReadWrite, Category = RFStyling)
 	TObjectPtr<URFStylingCustomizingWidget> Owner;
 };
