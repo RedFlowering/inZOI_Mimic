@@ -18,4 +18,15 @@ class RFSTYLINGSYSTEM_API ICustomizingWidgetInterface
 
 public:
 	virtual void SetOnClickThemeButton(FRFStylingItemID ButtonID);
+
+	virtual int32 SetOnClickTypeButton(bool IsNext, TArray<int32> ValueList, int32 CurrentValue);
+
+	virtual void SetAgeType(ERFStylingPresetsAgeType Age);
+
+	virtual void SetBodyType(ERFStylingPresetsBodyType Body);
+
+	virtual void SetExpressType(ERFStylingPresetsExpressType Express);
+
+	virtual void SetPoseType(ERFStylingPresetsPoseType Pose);
 };
+

@@ -22,6 +22,16 @@ enum class ERFStylingCustomizingTheme : uint8
 
 // Presets EnumType
 UENUM(BlueprintType)
+enum class ERFStylingPresetsGroup : uint8
+{
+	Age,
+	Body,
+	Express,
+	Pose,
+	PresetGroup_Count,
+};
+
+UENUM(BlueprintType)
 enum class ERFStylingPresetsAgeType : uint8
 {
 	Youth,
@@ -49,12 +59,12 @@ enum class ERFStylingPresetsExpressType : uint8
 };
 
 UENUM(BlueprintType)
-enum class ERFStylingPresetsPosesType : uint8
+enum class ERFStylingPresetsPoseType : uint8
 {
-	PosesType1,
-	PosesType2,
-	PosesType3,
-	PosesType_Count,
+	PoseType1,
+	PoseType2,
+	PoseType3,
+	PoseType_Count,
 };
 
 // Localization 을 위한 테이블 정리
