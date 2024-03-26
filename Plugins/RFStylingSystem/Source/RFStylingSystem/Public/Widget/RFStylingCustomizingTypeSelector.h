@@ -51,6 +51,19 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = RFStyling)
 	URFStylingCustomizingTypeButton* GetPrevBodyTypeButton() { return PrevBodyTypeButton; }
 
+	// for SetText
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = RFStyling)
+	void ChangeCurrentAgeValue(ERFStylingPresetsAgeType CurrentType) const;
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = RFStyling)
+	void ChangeCurrentBodyValue(ERFStylingPresetsBodyType CurrentType) const;
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = RFStyling)
+	void ChangeCurrentExpressValue(ERFStylingPresetsExpressType CurrentType) const;
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = RFStyling)
+	void ChangeCurrentPoseValue(ERFStylingPresetsPoseType CurrentType) const;
+
 public:
 	// Type Select
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RFStyling)

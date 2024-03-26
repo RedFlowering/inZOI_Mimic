@@ -102,6 +102,7 @@ void URFStylingCustomizingTypeSelector::InitTypeSelector()
 void URFStylingCustomizingTypeSelector::SetCurrentAgeType(ERFStylingPresetsAgeType type)
 {
 	CurrentAge = type;
+	ChangeCurrentAgeValue(CurrentAge);
 
 	ICustomizingWidgetInterface* Interface;
 
@@ -119,6 +120,9 @@ void URFStylingCustomizingTypeSelector::SetCurrentAgeType(ERFStylingPresetsAgeTy
 void URFStylingCustomizingTypeSelector::SetCurrentBodyType(ERFStylingPresetsBodyType type)
 {
 	CurrentBody = type;
+	ChangeCurrentBodyValue(CurrentBody);
+	PrevBodyTypeButton->CurrentValue = (int32)CurrentBody;
+	NextBodyTypeButton->CurrentValue = (int32)CurrentBody;
 
 	ICustomizingWidgetInterface* Interface;
 
@@ -136,6 +140,9 @@ void URFStylingCustomizingTypeSelector::SetCurrentBodyType(ERFStylingPresetsBody
 void URFStylingCustomizingTypeSelector::SetCurrentExpressType(ERFStylingPresetsExpressType type)
 {
 	CurrentExpress = type;
+	ChangeCurrentExpressValue(CurrentExpress);
+	PrevExpressTypeButton->CurrentValue = (int32)CurrentExpress;
+	NextExpressTypeButton->CurrentValue = (int32)CurrentExpress;
 
 	ICustomizingWidgetInterface* Interface;
 
@@ -153,6 +160,9 @@ void URFStylingCustomizingTypeSelector::SetCurrentExpressType(ERFStylingPresetsE
 void URFStylingCustomizingTypeSelector::SetCurrentPoseType(ERFStylingPresetsPoseType type)
 {
 	CurrentPose = type;
+	ChangeCurrentPoseValue(CurrentPose);
+	PrevPoseTypeButton->CurrentValue = (int32)CurrentPose;
+	NextPoseTypeButton->CurrentValue = (int32)CurrentPose;
 
 	ICustomizingWidgetInterface* Interface;
 

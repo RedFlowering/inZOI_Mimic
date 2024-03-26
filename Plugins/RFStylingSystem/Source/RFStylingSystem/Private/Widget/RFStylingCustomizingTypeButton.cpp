@@ -30,20 +30,20 @@ void URFStylingCustomizingTypeButton::OnClickEvent()
 		if (!Interface)
 			return;
 
-		int32 TargetValue = Interface->SetOnClickTypeButton(IsNextButton, ValueList, CurrentValue);
+		CurrentValue = Interface->SetOnClickTypeButton(IsNextButton, ValueList, CurrentValue);
 
 		switch (PresetGroup)
 		{
 		case ERFStylingPresetsGroup::Age:
 			break;
 		case ERFStylingPresetsGroup::Body:
-			TypeOwner->SetCurrentBodyType((ERFStylingPresetsBodyType)TargetValue);
+			TypeOwner->SetCurrentBodyType((ERFStylingPresetsBodyType)CurrentValue);
 			break;
 		case ERFStylingPresetsGroup::Express:
-			TypeOwner->SetCurrentExpressType((ERFStylingPresetsExpressType)TargetValue);
+			TypeOwner->SetCurrentExpressType((ERFStylingPresetsExpressType)CurrentValue);
 			break;
 		case ERFStylingPresetsGroup::Pose:
-			TypeOwner->SetCurrentPoseType((ERFStylingPresetsPoseType)TargetValue);
+			TypeOwner->SetCurrentPoseType((ERFStylingPresetsPoseType)CurrentValue);
 			break;
 		}
 	}
